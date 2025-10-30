@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Для моей Викули 💗</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: linear-gradient(to bottom, #ffe6f2, #fff0f6);
+      color: #d63384;
+      text-align: center;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 2em;
+      text-shadow: 0 0 10px #fff;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .love-text {
+      font-size: 2em;
+      color: #ff69b4;
+      animation: glow 2s infinite alternate;
+      margin-top: 20px;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ffb6c1; }
+      to { text-shadow: 0 0 20px #ff1493; }
+    }
+
+    .section {
+      padding: 40px 20px;
+    }
+
+    .gallery-wrapper {
+      background: #ffffffcc;
+      border-radius: 25px;
+      padding: 30px 20px;
+      max-width: 950px;
+      margin: 40px auto;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .gallery div {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      width: 200px;
+      height: 200px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .gallery div:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cute-cat {
+      margin: 60px auto;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .cute-cat.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .cute-cat img {
+      width: 250px;
+      border-radius: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .pusheen {
+      margin: 60px auto;
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.3s;
+    }
+
+    .pusheen:hover {
+      transform: scale(1.1);
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 192, 203, 0.85);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .popup-content {
+      background: #fff0f6;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      max-width: 400px;
+      border: 2px solid #ffcce0;
+      animation: appear 0.8s ease;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .popup-content h2 {
+      color: #d63384;
+      margin-bottom: 15px;
+    }
+
+    .close {
+      display: inline-block;
+      margin-top: 20px;
+      background: #ffb6c1;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .close:hover {
+      background: #ff8fa3;
+    }
+
+    .petal {
+      position: fixed;
+      top: -10px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://em-content.zobj.net/source/microsoft-teams/363/cherry-blossom_1f338.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.9;
+      animation: fall linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity:1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity:0.4; }
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #b82f6e;
+    }
+  </style>
+</head>
+<body>
+
+<!-- JS-пароль с полностью непрозрачным фоном -->
+<div id="pwOverlay" style="
+  position:fixed; inset:0; 
+  background:#fff0f6; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  z-index:9999;">
+  <div style="background:#fff0f6; padding:24px; border-radius:12px; width:320px; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.25)">
+    <h3 style="margin:0 0 10px; color:#d63384">Викуля пароль это наша с тобой дата</h3>
+    <input id="pwInput" type="password" placeholder="пароль" style="width:100%; padding:8px; border-radius:8px; border:1px solid #ffcce0;">
+    <div style="height:12px"></div>
+    <button id="pwBtn" style="background:#ff8fa3;color:white;padding:8px 14px;border-radius:8px;border:0;cursor:pointer">Войти</button>
+    <p id="pwMessage" style="color:#d63384; margin-top:8px; font-size:0.9em"></p>
+  </div>
+</div>
+
+<script>
+const PASSWORD = "090824";
+const overlay = document.getElementById('pwOverlay');
+const input = document.getElementById('pwInput');
+const btn = document.getElementById('pwBtn');
+const msg = document.getElementById('pwMessage');
+
+function tryPass() {
+  if (input.value === PASSWORD) {
+    overlay.style.display = 'none';
+    sessionStorage.setItem('siteAccess', 'ok');
+  } else {
+    msg.textContent = 'Неправильный пароль';
+    input.value = '';
+  }
+}
+
+if (sessionStorage.getItem('siteAccess') === 'ok') overlay.style.display = 'none';
+
+btn.addEventListener('click', tryPass);
+input.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryPass(); });
+</script>
+
+<h1>Любименькая и очаровательная Викуля 💖<br>
+  Я тебя очень сильно люблю, и жду тебя с Дубая,<br>
+  жду когда мы с тобой встретимся. А пока ты там посмотри что я для тебя сделал
+</h1>
+
+<div class="love-text">Викуля, этот сайт для тебя 💖</div>
+
+<section class="section">
+  <h2>✨ Наша галерея ✨</h2>
+  <p>Тут наши с тобой фоточки 💞</p>
+  <div class="gallery-wrapper">
+    <div class="gallery">
+      <div><img src="image/фотка1.jpg" alt="Наша фотка 1"></div>
+      <div><img src="image/фотка2.jpg" alt="Наша фотка 2"></div>
+      <div><img src="image/фотка3.jpg" alt="Наша фотка 3"></div>
+      <div><img src="image/фотка4.jpg" alt="Наша фотка 4"></div>
+      <div><img src="image/фотка5.jpg" alt="Наша фотка 5"></div>
+    </div>
+  </div>
+</section>
+
+<div class="cute-cat">
+  <img src="image/котик.png" alt="Милый котик">
+  <p>Викуля — это буквально ты 🐱💖</p>
+</div>
+
+<div class="pusheen" id="pusheen">
+  <img src="image/пушин.png" alt="Пушин с сердечком" width="500">
+  <p>💗 Нажми на меня 💗</p>
+</div>
+
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h2>🌸 Моей любименькой девочке 🌸</h2>
+    <p>
+      Мы вместе уже целых <b>447 дней</b> 💕<br><br>
+      За эти дни я продолжаю тебя любить всё больше и больше,<br>
+      и не перестану этого делать. Мне очень жаль за то, что я делаю тебе больно иногда,  
+      но я правда хочу, чтобы ты была счастлива. Сейчас я делаю всё возможное ради нас.  
+      <br><br>
+      <b>Я тебя очень сильно люблю, моя дорогая 💞</b>
+    </p>
+    <div class="close" id="closeBtn">Закрыть 💗</div>
+  </div>
+</div>
+
+<script>
+const pusheen = document.getElementById('pusheen');
+const popup = document.getElementById('popup');
+const closeBtn = document.getElementById('closeBtn');
+const cuteCat = document.querySelector('.cute-cat');
+
+pusheen.addEventListener('click', () => popup.style.display = 'flex');
+closeBtn.addEventListener('click', () => popup.style.display = 'none');
+
+function createPetal() {
+  const petal = document.createElement('div');
+  petal.classList.add('petal');
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = (6 + Math.random() * 6) + 's';
+  petal.style.opacity = 0.7 + Math.random() * 0.3;
+  petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+  document.body.appendChild(petal);
+  setTimeout(() => petal.remove(), 12000);
+}
+setInterval(createPetal, 250);
+
+window.addEventListener('scroll', () => {
+  const top = cuteCat.getBoundingClientRect().top;
+  if(top < window.innerHeight) cuteCat.classList.add('visible');
+});
+</script>
+
+<footer>
+  Сделано с любовью 💗 специально для Викули 🌸
+</footer>
+</body>
+</html>
